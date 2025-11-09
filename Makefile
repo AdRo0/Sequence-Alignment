@@ -1,4 +1,4 @@
-PROG = main
+PROG = align
 
 CC = gcc
 
