@@ -1,7 +1,11 @@
 # Sequence-Alignment
+
 Command-line utility that compares two files using the Smith–Waterman algorithm to identify local similarities.
 
-Usage: align <file1> <file2> [OPTIONS]
+### Usage
+
+```bash
+$ align <file1> <file2> [OPTIONS]
 
 Options:
   -n <#>    Show alignments of <#> islands.
