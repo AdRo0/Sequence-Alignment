@@ -142,6 +142,9 @@ void print_solution(int n, int hex_mode)
         if (scoring != high)
         {
             k--;
+            high = 0;  // Reset high to search for a new maximum
+            free(a1);
+            free(a2);
             continue;
         }
 
