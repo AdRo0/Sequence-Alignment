@@ -30,12 +30,6 @@ int max(int a, int b, int c)
 
 void smith_waterman()
 {
-    if (v_len * w_len > 2000000)
-    {
-        printf("Alignment exceeds memory limit! Try with smaller files.");
-        return;
-    }
-
     table = malloc((v_len + 1) * sizeof(int *));
     for (size_t i = 0; i < v_len + 1; i++)
         table[i] = malloc((w_len + 1) * sizeof(int));
@@ -142,19 +136,23 @@ void print_solution(int n, int hex_mode)
         if (scoring != high)
         {
             k--;
-            high = 0;  // Reset high to search for a new maximum
+            high = 0; // Reset high to search for a new maximum
             free(a1);
             free(a2);
             continue;
         }
 
         printf("Alignment (score %d)\n", high);
-        printf("v island: ");
+        int v_start = curr_i + 1;
+        int v_end = high_i;
+        int w_start = curr_j + 1;
+        int w_end = high_j;
+        printf("v island [%d to %d]: ", v_start, v_end);
         if (hex_mode)
         {
             for (size_t k = 0; k < island_size; ++k)
                 print_byte_hex(a1[island_size - 1 - k]);
-            printf("\n\nw island: ");
+            printf("\n\nw island [%d to %d]: ", w_start, w_end);
             for (size_t k = 0; k < island_size; ++k)
                 print_byte_hex(a2[island_size - 1 - k]);
         }
@@ -162,7 +160,7 @@ void print_solution(int n, int hex_mode)
         {
             for (size_t k = 0; k < island_size; ++k)
                 print_byte(a1[island_size - 1 - k]);
-            printf("\n\nw island: ");
+            printf("\n\nw island [%d to %d]: ", w_start, w_end);
             for (size_t k = 0; k < island_size; ++k)
                 print_byte(a2[island_size - 1 - k]);
         }
@@ -310,6 +308,12 @@ int main(int argc, char *argv[])
     {
         print_help();
         return 1;
+    }
+
+    if (v_len * w_len > 4000000)
+    {
+        printf("Alignment exceeds memory limit! Try with smaller files.");
+        return;
     }
 
     smith_waterman();
